@@ -22,7 +22,7 @@ Features
 
 * GET, POST, PUT, DELETE requests to ReadyCloud.
 * Order specific requests
-* Support Python2 and Python3.
+* Support for Python2 and Python3.
 
 Installation
 ------------

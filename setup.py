@@ -24,8 +24,8 @@ setup(
     version='0.1.0',
     description='Python client for ReadyCloud API.',
     long_description=readme + '\n\n' + history,
-    author='Trueship Inc',
-    author_email='taraslyapun@gmail.com',
+    author='TrueShip, LLC',
+    author_email='tlyapun@trueship.com',
     url='https://github.com/trueship/readycloud-python-client',
     packages=[
         'readycloud',
@@ -37,7 +37,7 @@ setup(
     zip_safe=False,
     keywords='readycloud-python-client',
     classifiers=[
-        'Development Status :: 2 - Pre-Alpha',
+        'Development Status :: 2 - Alpha',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Natural Language :: English',

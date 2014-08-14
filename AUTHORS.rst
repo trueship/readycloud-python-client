@@ -5,9 +5,11 @@ Credits
 Development Lead
 ----------------
 
-* Taras Lyapun <taraslyapun@gmail.com>
+* Taras Lyapun <tlyapun@trueship.com>
 
 Contributors
 ------------
 
-None yet. Why not be the first?
+* Joey Payne
+
+* Prasanth Nair
