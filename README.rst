@@ -2,14 +2,14 @@
 ReadyCloud API Client
 ===============================
 
-.. image:: https://badge.fury.io/py/readycloud-python-client.png
-    :target: http://badge.fury.io/py/readycloud-python-client
+.. image:: https://badge.fury.io/py/readycloud.png
+    :target: http://badge.fury.io/py/readycloud
 
 .. image:: https://travis-ci.org/trueship/readycloud-python-client.png?branch=master
         :target: https://travis-ci.org/trueship/readycloud-python-client
 
-.. image:: https://pypip.in/d/readycloud-python-client/badge.png
-        :target: https://pypi.python.org/pypi/readycloud-python-client
+.. image:: https://pypip.in/d/readycloud/badge.png
+        :target: https://pypi.python.org/pypi/readycloud
 
 
 Python client for ReadyCloud API.
