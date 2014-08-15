@@ -37,7 +37,7 @@ setup(
     zip_safe=False,
     keywords='readycloud-python-client',
     classifiers=[
-        'Development Status :: 2 - Alpha',
+        'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Natural Language :: English',
