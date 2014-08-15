@@ -15,4 +15,4 @@ def urljoin(*args):
     :type *args: str
     :returns: str -- concatenated url
     """
-    return '/'.join(s.strip('/') for s in args)
+    return '/'.join(s.strip('/') for s in args) + '/'

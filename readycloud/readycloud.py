@@ -9,6 +9,7 @@ Module which contains ReadyCloud class.
 import requests
 import json
 
+from .decorators import safe_json_request
 from .utils import urljoin
 
 
@@ -25,6 +26,7 @@ class ReadyCloud(object):
         self.token = token
         self.host = host
 
+    @safe_json_request
     def get(self, url, params):
         """
         Do GET request to ReadyCloud.
@@ -35,9 +37,9 @@ class ReadyCloud(object):
         :type params: dict
         :returns: dict -- dictionary with response
         """
-        return requests.get(url, params=params,
-                            headers=self.get_headers()).json()
+        return requests.get(url, params=params, headers=self.get_headers())
 
+    @safe_json_request
     def post(self, url, data):
         """
         Do POST request to ReadyCloud.
@@ -48,8 +50,9 @@ class ReadyCloud(object):
         :type data: dict
         :returns: dict -- dictionary with response
         """
-        return requests.post(url, data=data, headers=self.get_headers()).json()
+        return requests.post(url, data=data, headers=self.get_headers())
 
+    @safe_json_request
     def put(self, url, data):
         """
         Do PUT request to ReadyCloud.
@@ -60,8 +63,9 @@ class ReadyCloud(object):
         :type data: dict
         :returns: dict -- dictionary with response
         """
-        return requests.put(url, data=data, headers=self.get_headers()).json()
+        return requests.put(url, data=data, headers=self.get_headers())
 
+    @safe_json_request
     def delete(self, url):
         """
         Do DELETE request to ReadyCloud.
@@ -70,7 +74,7 @@ class ReadyCloud(object):
         :type url: str
         :returns: dict -- dictionary with response
         """
-        return requests.delete(url, headers=self.get_headers()).json()
+        return requests.delete(url, headers=self.get_headers())
 
     def get_orders(self, **kwargs):
         """
