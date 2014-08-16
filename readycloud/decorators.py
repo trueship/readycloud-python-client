@@ -9,6 +9,7 @@ Module with decorators
 from functools import wraps
 
 from .exceptions import ReadyCloudServerError
+from .utils import get_response_json
 
 
 def safe_json_request(func):
@@ -23,5 +24,5 @@ def safe_json_request(func):
         resp = func(*args, **kwargs)
         if resp.status_code == 500:
             raise ReadyCloudServerError(resp.content)
-        return resp.json()
+        return get_response_json(resp)
     return wrapper
