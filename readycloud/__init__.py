@@ -8,6 +8,6 @@ Module which exposes public api.
 
 __author__ = 'Trueship Inc'
 __email__ = 'tlyapun@trueship.com'
-__version__ = '0.1.0'
+__version__ = '0.1.1'
 
 from .readycloud import ReadyCloud
