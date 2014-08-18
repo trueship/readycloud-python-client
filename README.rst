@@ -21,7 +21,7 @@ Features
 --------
 
 * GET, POST, PUT, DELETE requests to ReadyCloud.
-* Order specific requests
+* CRUD functions for Order, WebHooks
 * Support for Python2 and Python3.
 
 Installation

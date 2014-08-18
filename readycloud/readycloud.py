@@ -50,7 +50,8 @@ class ReadyCloud(object):
         :type data: dict
         :returns: dict -- dictionary with response
         """
-        return requests.post(url, data=data, headers=self.get_headers())
+        return requests.post(url, data=json.dumps(data),
+                             headers=self.get_headers())
 
     @safe_json_request
     def put(self, url, data):
@@ -63,7 +64,8 @@ class ReadyCloud(object):
         :type data: dict
         :returns: dict -- dictionary with response
         """
-        return requests.put(url, data=data, headers=self.get_headers())
+        return requests.put(url, data=json.dumps(data),
+                            headers=self.get_headers())
 
     @safe_json_request
     def delete(self, url):
@@ -94,7 +96,7 @@ class ReadyCloud(object):
         :type order: dict
         :returns: dict -- dictionary with response
         """
-        return self.post(self.get_orders_url(), data=json.dumps(order))
+        return self.post(self.get_orders_url(), data=order)
 
     def update_order(self, order_id, order):
         """
@@ -106,7 +108,7 @@ class ReadyCloud(object):
         :type order: dict
         :returns: dict -- dictionary with response
         """
-        return self.put(self.get_order_url(order_id), data=json.dumps(order))
+        return self.put(self.get_order_url(order_id), data=order)
 
     def delete_order(self, order_id):
         """
@@ -118,6 +120,84 @@ class ReadyCloud(object):
         :returns: dict -- dictionary with response
         """
         return self.delete(self.get_order_url(order_id))
+
+    def create_orders_webhook(self, url):
+        """
+        Create new webhook for orders.
+
+        :param url: Url to which RS should post updated for orders
+        :type url: str
+
+        :returns: dict -- dictionary with response
+        """
+        return self.create_webhook('orders', url)
+
+    def update_orders_webhook(self, webhook_id, url):
+        """
+        Update url for already registered orders webhook.
+
+        :param webhook_id: webhook id which you want to edit
+        :type webhook_id: int
+        :param url: new webhook url
+        :type url: str
+
+        :returns: dict -- dictionary with response
+        """
+        return self.update_webhook(webhook_id, 'orders', url)
+
+    def get_webhooks(self, **kwargs):
+        """
+        Get list of registered webhooks
+
+        :returns: dict -- dictionary with response
+        """
+        return self.get(self.get_webhooks_url(), params=kwargs)
+
+    def create_webhook(self, entity, url):
+        """
+        Create new webhook.
+
+        :param entity: Entity for which you want to register webhook
+        :type entity: str
+        :param url: Url to which RC should post updates for registered entity
+        :type url: str
+
+        :returns: dict -- dictionary with response
+        """
+        data = {
+            'entity': entity,
+            'url': url,
+        }
+        return self.post(self.get_webhooks_url(), data=data)
+
+    def update_webhook(self, webhook_id, entity, url):
+        """
+        Update an existing webhook.
+
+        :param webhook_id: order id
+        :type webhook_id: int
+        :param entity: Entity for which you want to register webhook
+        :type entity: str
+        :param url: Url to which RC should post updates for registered entity
+        :type url: str
+        :returns: dict -- dictionary with response
+        """
+        data = {
+            'entity': entity,
+            'url': url,
+        }
+        return self.put(self.get_webhook_url(webhook_id), data=data)
+
+    def delete_webhook(self, webhook_id):
+        """
+        Delete webhook
+
+        :param webhook_id: webhook id for delete
+        :type webhook_id: int
+
+        :returns: dict -- dictionary with response
+        """
+        return self.delete(self.get_webhook_url(webhook_id))
 
     def get_headers(self):
         """
@@ -148,3 +228,22 @@ class ReadyCloud(object):
         :returns: str -- absolute url to order endpoint
         """
         return urljoin(self.get_orders_url(), str(order_id))
+
+    def get_webhooks_url(self):
+        """
+        Get webhooks endpoint url.
+
+        :returns: str -- absolute url to webhooks endpoint
+        """
+        return urljoin(self.host, '/api/v1/webhooks/')
+
+    def get_webhook_url(self, webhook_id):
+        """
+        Get webhoojs endpoint url for specified webhook_id
+
+        :param webhook_id: webhook id
+        :type webhook_id: int
+
+        :returns: str -- absolute url to webhook endpoint
+        """
+        return urljoin(self.get_webhooks_url(), str(webhook_id))
