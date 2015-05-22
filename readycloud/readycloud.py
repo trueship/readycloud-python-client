@@ -21,10 +21,18 @@ class ReadyCloud(object):
     :type token: str
     :param host: host with which you want to work (readycloud.com by default)
     :type host: str
+    :param api: api version (v2 by default)
+    :type host: str
     """
-    def __init__(self, token, host='https://readycloud.com/'):
+
+    API_v1 = 'v1'
+    API_v2 = 'v2'
+    ORG_PK = 1
+
+    def __init__(self, token, host='https://readycloud.com/', api='v2'):
         self.token = token
         self.host = host
+        self.api = api
 
     @safe_json_request
     def get(self, url, params):
@@ -216,7 +224,13 @@ class ReadyCloud(object):
 
         :returns: str -- absolute url to orders endpoint
         """
-        return urljoin(self.host, '/api/v1/orders/')
+        if self.api == self.API_v1:
+            uri = '/api/v1/orders/'
+        elif self.api == self.API_v2:
+            uri = '/api/v2/orgs/1/orders/'
+        else:
+            raise NotImplementedError()
+        return urljoin(self.host, uri)
 
     def get_order_url(self, order_id):
         """
