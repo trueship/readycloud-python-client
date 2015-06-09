@@ -29,10 +29,11 @@ class ReadyCloud(object):
     API_v2 = 'v2'
     ORG_PK = 1
 
-    def __init__(self, token, host='https://readycloud.com/', api='v2'):
+    def __init__(self, token, host='https://readycloud.com/', api=API_v2, org=ORG_PK):
         self.token = token
         self.host = host
         self.api = api
+        self.org = org
 
     @safe_json_request
     def get(self, url, params):
@@ -227,7 +228,7 @@ class ReadyCloud(object):
         if self.api == self.API_v1:
             uri = '/api/v1/orders/'
         elif self.api == self.API_v2:
-            uri = '/api/v2/orgs/1/orders/'
+            uri = '/api/v2/orgs/{}/orders/'.format(self.org)
         else:
             raise NotImplementedError()
         return urljoin(self.host, uri)
