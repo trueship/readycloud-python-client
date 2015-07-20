@@ -244,7 +244,7 @@ class ReadyCloud(object):
             uri = '/api/v1/orders/'
         elif self.api == self.API_v2:
             if not self.org_id:
-                raise ValueError('org_id should be passed as argument')
+                raise ValueError('org_id should be set')
             uri = '/api/v2/orgs/{}/orders/'.format(self.org_id)
         else:
             raise NotImplementedError()
@@ -298,7 +298,7 @@ class ReadyCloud(object):
         :type webhook_id: hexadecimal
         """
         try:
-            int(org_id, 16)
+            int(str(org_id), 16)
         except ValueError:
             raise ValueError('org_id should be hexadecimal value')
-        self.org_id = org_id
+        self.org_id = str(org_id)
