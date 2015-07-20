@@ -20,7 +20,7 @@ from readycloud.exceptions import ReadyCloudServerError
 class ReadyCloudTestCase(unittest.TestCase):
     def setUp(self):
         self.rc = ReadyCloud(token='12345', host='https://readycloud.com/', api=ReadyCloud.API_v1)
-        self.rc_v2 = ReadyCloud(token='12345', host='https://readycloud.com/', api=ReadyCloud.API_v2)
+        self.rc_v2 = ReadyCloud(token='12345', host='https://readycloud.com/', org_id=1, api=ReadyCloud.API_v2)
 
     def test_get_orders_url_should_return_full_orders_url(self):
         self.assertEqual(self.rc.get_orders_url(),
@@ -49,7 +49,7 @@ class ReadyCloudTestCase(unittest.TestCase):
 
     @patch('requests.get')
     def test_get_orders_via_api_2_should_send_get_with_right_params(self, get):
-        self.rc_v2.get_orders(1, limit=2)
+        self.rc_v2.get_orders(limit=2)
         get.assert_called_once_with(
             'https://readycloud.com/api/v2/orgs/1/orders/',
             headers={
@@ -75,7 +75,7 @@ class ReadyCloudTestCase(unittest.TestCase):
         order = {
             'message': 'test',
         }
-        self.rc_v2.create_order(order, 1)
+        self.rc_v2.create_order(order)
         post.assert_called_once_with(
             'https://readycloud.com/api/v2/orgs/1/orders/',
             headers={
@@ -101,7 +101,7 @@ class ReadyCloudTestCase(unittest.TestCase):
         order = {
             'message': 'test',
         }
-        self.rc_v2.update_order(1, order, 1)
+        self.rc_v2.update_order(1, order)
         put.assert_called_once_with(
             'https://readycloud.com/api/v2/orgs/1/orders/1/',
             headers={
