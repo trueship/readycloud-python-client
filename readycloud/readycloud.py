@@ -245,7 +245,7 @@ class ReadyCloud(object):
         elif self.api == self.API_v2:
             if not self.org_id:
                 raise ValueError('org_id should be set')
-            uri = '/api/v2/orgs/{}/orders/'.format(self.org_id)
+            uri = '/api/v2/orgs/{0}/orders/'.format(self.org_id)
         else:
             raise NotImplementedError()
         return urljoin(self.host, uri)
@@ -287,7 +287,7 @@ class ReadyCloud(object):
         :returns: str -- absolute url to organization endpoint
         """
         if org_id:
-            return urljoin(self.host, '/api/v2/orgs/{}'.format(org_id))
+            return urljoin(self.host, '/api/v2/orgs/{0}'.format(org_id))
         return urljoin(self.host, '/api/v2/orgs/')
 
     def set_org_id(self, org_id):
