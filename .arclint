@@ -3,7 +3,10 @@
     "Python linting": {
       "type": "flake8",
       "include": "(\\.py$)",
-      "exclude": "(^docs/)"
+      "exclude": "(^docs/)",
+        "severity": {
+          "E501": "disabled"
+        }
     }
   }
 }
