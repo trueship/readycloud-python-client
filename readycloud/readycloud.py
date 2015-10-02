@@ -21,10 +21,20 @@ class ReadyCloud(object):
     :type token: str
     :param host: host with which you want to work (readycloud.com by default)
     :type host: str
+    :param org_id: organization id
+    :type host: hexadecimal
+    :param api: api version (v2 by default)
+    :type host: str
     """
-    def __init__(self, token, host='https://readycloud.com/'):
+
+    API_v1 = 'v1'
+    API_v2 = 'v2'
+
+    def __init__(self, token, host='https://readycloud.com/', org_id=None, api=API_v2):
         self.token = token
         self.host = host
+        self.api = api
+        self.org_id = org_id
 
     @safe_json_request
     def get(self, url, params):
@@ -199,6 +209,20 @@ class ReadyCloud(object):
         """
         return self.delete(self.get_webhook_url(webhook_id))
 
+    def get_organizations(self, org_id=None, **kwargs):
+        """
+        Get organization.
+
+        :param **kwargs: filters, limit, offset, etc.
+        :type kwargs: str
+
+        :param org_id: organization id
+        :type host: hexadecimal
+
+        :returns: dict -- dictionary with response
+        """
+        return self.get(self.get_organizations_url(org_id), params=kwargs)
+
     def get_headers(self):
         """
         Get http headers for request.
@@ -216,7 +240,15 @@ class ReadyCloud(object):
 
         :returns: str -- absolute url to orders endpoint
         """
-        return urljoin(self.host, '/api/v1/orders/')
+        if self.api == self.API_v1:
+            uri = '/api/v1/orders/'
+        elif self.api == self.API_v2:
+            if not self.org_id:
+                raise ValueError('org_id should be set')
+            uri = '/api/v2/orgs/{0}/orders/'.format(self.org_id)
+        else:
+            raise NotImplementedError()
+        return urljoin(self.host, uri)
 
     def get_order_url(self, order_id):
         """
@@ -247,3 +279,26 @@ class ReadyCloud(object):
         :returns: str -- absolute url to webhook endpoint
         """
         return urljoin(self.get_webhooks_url(), str(webhook_id))
+
+    def get_organizations_url(self, org_id=None):
+        """
+        Get organization endpoin url
+
+        :returns: str -- absolute url to organization endpoint
+        """
+        if org_id:
+            return urljoin(self.host, '/api/v2/orgs/{0}'.format(org_id))
+        return urljoin(self.host, '/api/v2/orgs/')
+
+    def set_org_id(self, org_id):
+        """
+        Set new organization id
+
+        :param webhook_id: organization id
+        :type webhook_id: hexadecimal
+        """
+        try:
+            int(str(org_id), 16)
+        except ValueError:
+            raise ValueError('org_id should be hexadecimal value')
+        self.org_id = str(org_id)
