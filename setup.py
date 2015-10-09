@@ -21,7 +21,7 @@ test_requirements = [
 
 setup(
     name='readycloud',
-    version='0.2.0',
+    version='0.3.0',
     description='Python client for ReadyCloud API.',
     long_description=readme + '\n\n' + history,
     author='TrueShip, LLC',

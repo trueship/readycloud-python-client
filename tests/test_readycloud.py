@@ -19,16 +19,14 @@ from readycloud.exceptions import ReadyCloudServerError
 
 class ReadyCloudTestCase(unittest.TestCase):
     def setUp(self):
-        self.rc = ReadyCloud(token='12345', host='https://readycloud.com/', api=ReadyCloud.API_v1)
-        self.rc_v2 = ReadyCloud(token='12345', host='https://readycloud.com/', org_id=1, api=ReadyCloud.API_v2)
+        self.rc = ReadyCloud(token='12345', host='https://readycloud.com/', api=ReadyCloud.API_V1)
+        self.rc_v2 = ReadyCloud(token='12345', host='https://readycloud.com/', org_id='1', api=ReadyCloud.API_V2)
 
     def test_get_orders_url_should_return_full_orders_url(self):
-        self.assertEqual(self.rc.get_orders_url(),
-                         'https://readycloud.com/api/v1/orders/')
+        self.assertEqual(self.rc.get_orders_url(), 'https://readycloud.com/api/v1/orders/')
 
     def test_get_order_url_should_return_full_order_url_with_id(self):
-        self.assertEqual(self.rc.get_order_url(1),
-                         'https://readycloud.com/api/v1/orders/1/')
+        self.assertEqual(self.rc.get_order_url('1'), 'https://readycloud.com/api/v1/orders/1/')
 
     def test_get_headers_should_return_right_headers(self):
         expected_headers = {
@@ -88,7 +86,7 @@ class ReadyCloudTestCase(unittest.TestCase):
         order = {
             'message': 'test',
         }
-        self.rc.update_order(1, order)
+        self.rc.update_order('1', order)
         put.assert_called_once_with(
             'https://readycloud.com/api/v1/orders/1/',
             headers={
@@ -101,7 +99,7 @@ class ReadyCloudTestCase(unittest.TestCase):
         order = {
             'message': 'test',
         }
-        self.rc_v2.update_order(1, order)
+        self.rc_v2.update_order('1', order)
         put.assert_called_once_with(
             'https://readycloud.com/api/v2/orgs/1/orders/1/',
             headers={
@@ -111,7 +109,7 @@ class ReadyCloudTestCase(unittest.TestCase):
 
     @patch('requests.delete')
     def test_delete_order_should_send_delete(self, delete):
-        self.rc.delete_order(1)
+        self.rc.delete_order('1')
         delete.assert_called_once_with(
             'https://readycloud.com/api/v1/orders/1/',
             headers={
@@ -124,8 +122,7 @@ class ReadyCloudTestCase(unittest.TestCase):
         self.assertRaises(ReadyCloudServerError, self.rc.get_orders, limit=2)
 
     @patch('requests.post')
-    def test_create_orders_webhooks_should_send_post_with_right_params(self,
-                                                                       post):
+    def test_create_orders_webhooks_should_send_post_with_right_params(self, post):
         self.rc.create_orders_webhook('https://example.com/test')
         post.assert_called_once_with(
             'https://readycloud.com/api/v1/webhooks/',
@@ -148,8 +145,7 @@ class ReadyCloudTestCase(unittest.TestCase):
             params={'limit': 2})
 
     @patch('requests.put')
-    def test_update_orders_webhook_should_send_put_with_right_params(self,
-                                                                     put):
+    def test_update_orders_webhook_should_send_put_with_right_params(self, put):
         self.rc.update_orders_webhook(1, 'https://example.com/new-url')
         put.assert_called_once_with(
             'https://readycloud.com/api/v1/webhooks/1/',
@@ -182,7 +178,7 @@ class ReadyCloudTestCase(unittest.TestCase):
 
     @patch('requests.get')
     def test_get_organization_with_pk_should_return_right_params(self, get):
-        self.rc_v2.get_organizations(1)
+        self.rc_v2.get_organization('1')
         get.assert_called_once_with(
             'https://readycloud.com/api/v2/orgs/1/',
             headers={
@@ -190,7 +186,6 @@ class ReadyCloudTestCase(unittest.TestCase):
                 'AUTHORIZATION': 'bearer 12345'},
             params={})
 
-    # {u'count': 1, 'ok': True, 'status_code': 200, u'next': None, u'results': [{u'url': u'https://stage.readycloud.com/api/v2/orgs/1/', u'name': u'TrueTest Inc.ff'}], u'previous': None}
 
 if __name__ == '__main__':
     unittest.main()

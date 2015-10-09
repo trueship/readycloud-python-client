@@ -16,21 +16,18 @@ from .utils import urljoin
 class ReadyCloud(object):
     """
     Class for working with ReadyCloud API.
-
-    :param token: your bearer token
-    :type token: str
-    :param host: host with which you want to work (readycloud.com by default)
-    :type host: str
-    :param org_id: organization id
-    :type host: hexadecimal
-    :param api: api version (v2 by default)
-    :type host: str
     """
 
-    API_v1 = 'v1'
-    API_v2 = 'v2'
+    API_V1 = 'v1'
+    API_V2 = 'v2'
 
-    def __init__(self, token, host='https://readycloud.com/', org_id=None, api=API_v2):
+    def __init__(self, token, host='https://readycloud.com/', org_id=None, api=API_V2):
+        """
+        :param str token: your bearer token
+        :param str host: host with which you want to work (readycloud.com by default)
+        :param str org_id: hexahexacontadecimal encoded organization id
+        :param str api: api version (v2 by default)
+        """
         self.token = token
         self.host = host
         self.api = api
@@ -41,10 +38,8 @@ class ReadyCloud(object):
         """
         Do GET request to ReadyCloud.
 
-        :param url: url to which you want to do request
-        :type url: str
-        :param params: dict with request params
-        :type params: dict
+        :param str url: URL to which you want to do request
+        :param dict params: dict with request params
         :returns: dict -- dictionary with response
         """
         return requests.get(url, params=params, headers=self.get_headers())
@@ -54,10 +49,8 @@ class ReadyCloud(object):
         """
         Do POST request to ReadyCloud.
 
-        :param url: url to which you want to do request
-        :type url: str
-        :param data: dict with POST data
-        :type data: dict
+        :param str url: URL to which you want to do request
+        :param dict data: dict with POST data
         :returns: dict -- dictionary with response
         """
         return requests.post(url, data=json.dumps(data),
@@ -68,10 +61,8 @@ class ReadyCloud(object):
         """
         Do PUT request to ReadyCloud.
 
-        :param url: url to which you want to do request
-        :type url: str
-        :param data: dict with data which you want to PUT
-        :type data: dict
+        :param str url: URL to which you want to do request
+        :param dict data: dict with data which you want to PUT
         :returns: dict -- dictionary with response
         """
         return requests.put(url, data=json.dumps(data),
@@ -82,8 +73,7 @@ class ReadyCloud(object):
         """
         Do DELETE request to ReadyCloud.
 
-        :param url: url to which you want to do request
-        :type url: str
+        :param str url: URL to which you want to do request
         :returns: dict -- dictionary with response
         """
         return requests.delete(url, headers=self.get_headers())
@@ -92,8 +82,7 @@ class ReadyCloud(object):
         """
         Get orders.
 
-        :param **kwargs: filters, limit, offset, etc.
-        :type kwargs: str
+        :param dict kwargs: filters, limit, offset, etc.
         :returns: dict -- dictionary with response
         """
         return self.get(self.get_orders_url(), params=kwargs)
@@ -102,8 +91,7 @@ class ReadyCloud(object):
         """
         Create a new order.
 
-        :param order: dict structure of order
-        :type order: dict
+        :param dict order: dict structure of order
         :returns: dict -- dictionary with response
         """
         return self.post(self.get_orders_url(), data=order)
@@ -112,10 +100,8 @@ class ReadyCloud(object):
         """
         Update an existing order.
 
-        :param order_id: order id
-        :type order_id: int
-        :param order: dict structure of order
-        :type order: dict
+        :param str order_id: order id
+        :param dict order: dict structure of order
         :returns: dict -- dictionary with response
         """
         return self.put(self.get_order_url(order_id), data=order)
@@ -124,8 +110,7 @@ class ReadyCloud(object):
         """
         Delete order
 
-        :param order_id: order id for delete
-        :type order_id: int
+        :param str order_id: order id for delete
 
         :returns: dict -- dictionary with response
         """
@@ -135,8 +120,7 @@ class ReadyCloud(object):
         """
         Create new webhook for orders.
 
-        :param url: Url to which RS should post updated for orders
-        :type url: str
+        :param str url: URL to which RS should post updated for orders
 
         :returns: dict -- dictionary with response
         """
@@ -144,12 +128,10 @@ class ReadyCloud(object):
 
     def update_orders_webhook(self, webhook_id, url):
         """
-        Update url for already registered orders webhook.
+        Update URL for already registered orders webhook.
 
-        :param webhook_id: webhook id which you want to edit
-        :type webhook_id: int
-        :param url: new webhook url
-        :type url: str
+        :param int webhook_id: webhook id which you want to edit
+        :param str url: new webhook url
 
         :returns: dict -- dictionary with response
         """
@@ -158,6 +140,7 @@ class ReadyCloud(object):
     def get_webhooks(self, **kwargs):
         """
         Get list of registered webhooks
+        :param dict kwargs: filters, limit, offset, etc.
 
         :returns: dict -- dictionary with response
         """
@@ -167,10 +150,8 @@ class ReadyCloud(object):
         """
         Create new webhook.
 
-        :param entity: Entity for which you want to register webhook
-        :type entity: str
-        :param url: Url to which RC should post updates for registered entity
-        :type url: str
+        :param str entity: Entity for which you want to register webhook
+        :param str url: URL to which RC should post updates for registered entity
 
         :returns: dict -- dictionary with response
         """
@@ -184,12 +165,9 @@ class ReadyCloud(object):
         """
         Update an existing webhook.
 
-        :param webhook_id: order id
-        :type webhook_id: int
-        :param entity: Entity for which you want to register webhook
-        :type entity: str
-        :param url: Url to which RC should post updates for registered entity
-        :type url: str
+        :param int webhook_id: order id
+        :param str entity: Entity for which you want to register webhook
+        :param str url: URL to which RC should post updates for registered entity
         :returns: dict -- dictionary with response
         """
         data = {
@@ -202,26 +180,27 @@ class ReadyCloud(object):
         """
         Delete webhook
 
-        :param webhook_id: webhook id for delete
-        :type webhook_id: int
+        :param int webhook_id: webhook id for delete
 
         :returns: dict -- dictionary with response
         """
         return self.delete(self.get_webhook_url(webhook_id))
 
-    def get_organizations(self, org_id=None, **kwargs):
+    def get_organization(self, org_id):
         """
         Get organization.
-
-        :param **kwargs: filters, limit, offset, etc.
-        :type kwargs: str
-
-        :param org_id: organization id
-        :type host: hexadecimal
-
+        :param str org_id: hexahexacontadecimal encoded organization id
         :returns: dict -- dictionary with response
         """
-        return self.get(self.get_organizations_url(org_id), params=kwargs)
+        return self.get(self.get_organization_url(org_id), params={})
+
+    def get_organizations(self, **kwargs):
+        """
+        Get organization.
+        :param dict kwargs: filters, limit, offset, etc.
+        :returns: dict -- dictionary with response
+        """
+        return self.get(self.get_organizations_url(), params=kwargs)
 
     def get_headers(self):
         """
@@ -236,13 +215,14 @@ class ReadyCloud(object):
 
     def get_orders_url(self):
         """
-        Get orders endpoint url.
+        Get orders endpoint URL.
 
-        :returns: str -- absolute url to orders endpoint
+        :returns: str -- absolute URL to orders endpoint
         """
-        if self.api == self.API_v1:
+
+        if self.api == self.API_V1:
             uri = '/api/v1/orders/'
-        elif self.api == self.API_v2:
+        elif self.api == self.API_V2:
             if not self.org_id:
                 raise ValueError('org_id should be set')
             uri = '/api/v2/orgs/{0}/orders/'.format(self.org_id)
@@ -252,53 +232,43 @@ class ReadyCloud(object):
 
     def get_order_url(self, order_id):
         """
-        Get orders endpoint url for specified order_id
+        Get orders endpoint URL for specified order_id
 
-        :param order_id: order id
-        :type order_id: int
+        :param str order_id: order id
 
-        :returns: str -- absolute url to order endpoint
+        :returns: str -- absolute URL to order endpoint
         """
         return urljoin(self.get_orders_url(), str(order_id))
 
     def get_webhooks_url(self):
         """
-        Get webhooks endpoint url.
+        Get webhooks endpoint URL.
 
-        :returns: str -- absolute url to webhooks endpoint
+        :returns: str -- absolute URL to webhooks endpoint
         """
         return urljoin(self.host, '/api/v1/webhooks/')
 
     def get_webhook_url(self, webhook_id):
         """
-        Get webhoojs endpoint url for specified webhook_id
+        Get webhooks endpoint URL for specified webhook_id
 
-        :param webhook_id: webhook id
-        :type webhook_id: int
+        :param int webhook_id: webhook id
 
-        :returns: str -- absolute url to webhook endpoint
+        :returns: str -- absolute URL to webhook endpoint
         """
         return urljoin(self.get_webhooks_url(), str(webhook_id))
 
-    def get_organizations_url(self, org_id=None):
+    def get_organization_url(self, org_id):
         """
-        Get organization endpoin url
+        Get organization endpoint URL
+        :param str org_id: hexahexacontadecimal encoded organization id
+        :returns: str -- absolute URL to organization endpoint
+        """
+        return urljoin(self.host, '/api/v2/orgs/{0}'.format(org_id))
 
-        :returns: str -- absolute url to organization endpoint
+    def get_organizations_url(self):
         """
-        if org_id:
-            return urljoin(self.host, '/api/v2/orgs/{0}'.format(org_id))
+        Get organizations endpoint URL
+        :returns: str -- absolute URL to organizations endpoint
+        """
         return urljoin(self.host, '/api/v2/orgs/')
-
-    def set_org_id(self, org_id):
-        """
-        Set new organization id
-
-        :param webhook_id: organization id
-        :type webhook_id: hexadecimal
-        """
-        try:
-            int(str(org_id), 16)
-        except ValueError:
-            raise ValueError('org_id should be hexadecimal value')
-        self.org_id = str(org_id)
