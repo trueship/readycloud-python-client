@@ -53,11 +53,21 @@ class ReadyCloud(object):
         :param dict data: dict with POST data
         :returns: dict -- dictionary with response
         """
-        return requests.post(url, data=json.dumps(data),
-                             headers=self.get_headers())
+        return requests.post(url, data=json.dumps(data), headers=self.get_headers())
 
     @safe_json_request
     def put(self, url, data):
+        """
+        Do PATCH request to ReadyCloud.
+
+        :param str url: URL to which you want to do request
+        :param dict data: dict with data which you want to PUT
+        :returns: dict -- dictionary with response
+        """
+        return requests.put(url, data=json.dumps(data), headers=self.get_headers())
+
+    @safe_json_request
+    def patch(self, url, data):
         """
         Do PUT request to ReadyCloud.
 
@@ -65,8 +75,7 @@ class ReadyCloud(object):
         :param dict data: dict with data which you want to PUT
         :returns: dict -- dictionary with response
         """
-        return requests.put(url, data=json.dumps(data),
-                            headers=self.get_headers())
+        return requests.put(url, data=json.dumps(data), headers=self.get_headers())
 
     @safe_json_request
     def delete(self, url):
