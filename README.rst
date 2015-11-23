@@ -20,7 +20,7 @@ Python client for ReadyCloud API.
 Features
 --------
 
-* GET, POST, PUT, DELETE requests to ReadyCloud.
+* GET, POST, PUT, PATCH, DELETE requests to ReadyCloud.
 * CRUD functions for Order, WebHooks
 * Support for Python2 and Python3.
 
