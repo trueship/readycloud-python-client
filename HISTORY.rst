@@ -3,6 +3,11 @@
 History
 -------
 
+0.3.1 (2015-11-24)
+---------------------
+
+* Added `patch` method to perform PATCH HTTP requests.
+
 0.3.0 (2015-10-09)
 ---------------------
 
