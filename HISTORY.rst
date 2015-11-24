@@ -6,7 +6,7 @@ History
 0.3.0 (2015-10-09)
 ---------------------
 
-* Added support for the ReadyCloud's API v2.
+* Added support for the 2.0 API.
 
 0.2.0 (2014-08-16)
 ---------------------
